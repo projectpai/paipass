@@ -1,0 +1,16 @@
+.review {
+    &-input {
+        margin-left: 16px;
+        flex: 1;
+    }
+
+    &-reason {
+        width: 200px;
+    }
+
+    &-submit-button {
+        width: 200px;
+        margin: 24px auto;
+        display: flex;
+    }
+}

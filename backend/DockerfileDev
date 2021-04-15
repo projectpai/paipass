@@ -1,0 +1,44 @@
+FROM python:3.7.7-slim-buster
+
+RUN apt-get update \
+    # Necessary to be able to use psycopg2
+    && apt-get install -y libpq-dev apt-transport-https gnupg \
+    && apt-get install --no-install-recommends -y gcc  g++\
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
+    &&  mkdir code
+
+# django
+ENV PYTHONUNBUFFERED 1
+ARG DATA_DIR
+
+WORKDIR /code
+COPY ./backend/requirements.txt /code/
+COPY ./core/requirements.txt /code/core/
+RUN pip install -r requirements.txt \
+    && pip install -r ./core/requirements.txt
+
+# og start
+ENV PYTHONPATH /code:/opt/project:$PYTHONPATH
+ENV PAIPASS_BACKEND_SRC /code
+# og end
+
+# debug only
+#ENV PAIPASS_BACKEND_SRC /opt/project
+#ENV PYTHONPATH /opt/project:$PYTHONPATH
+# debug only end
+
+# og start
+#COPY ./backend /code/
+COPY ./third_party /code/third_party/
+COPY ./core /code/core/
+# og end
+
+# debug only
+COPY ./backend /opt/project/
+#COPY ./third_party /opt/project/third_party/
+#COPY ./core /opt/project/core/
+#RUN python /opt/project/third_party_pkg_init.py && mkdir -p /home/ubuntu/user_data/torrents
+
+# debug only end
+RUN python /opt/project/third_party_pkg_init.py && mkdir -p /home/ubuntu/user_data/torrents
+WORKDIR /opt/project

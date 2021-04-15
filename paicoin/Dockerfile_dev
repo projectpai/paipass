@@ -1,0 +1,75 @@
+FROM ubuntu:18.04
+RUN useradd -rm -d /home/j1149 -s /bin/bash -g root -G sudo -u 1000 j1149
+
+ENV LANG C.UTF-8
+
+# install dependencies
+RUN apt-get update -y \
+  && apt-get install -y curl gnupg gosu vim wget \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ARG CONDA_PREFIX=/opt/conda
+
+RUN wget \
+    https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-Linux-x86_64.sh \
+    && bash Miniconda3-4.7.12.1-Linux-x86_64.sh -b -p ${CONDA_PREFIX} \
+    && rm -f Miniconda3-4.7.12.1-Linux-x86_64.sh \
+    && touch ~/.bashrc \
+    && ${CONDA_PREFIX}/bin/conda init bash
+
+
+# install paicoin
+WORKDIR /home/j1149/paicoin
+ENV TZ=America/Los_Angeles
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt-get update
+RUN apt-get install -y build-essential libtool autotools-dev automake \
+    pkg-config libssl-dev libevent-dev bsdmainutils python3 \
+    libboost-system-dev libboost-filesystem-dev \
+    libboost-chrono-dev libboost-program-options-dev \
+    libboost-test-dev libboost-thread-dev
+
+# Berkeley DB
+RUN apt-get install -y software-properties-common
+RUN add-apt-repository ppa:bitcoin/bitcoin
+RUN apt-get install -y libdb4.8-dev libdb4.8++-dev git-all
+
+#
+RUN cd /home
+RUN git clone https://github.com/projectpai/paicoin.git
+
+# Build paicoin
+WORKDIR /home/j1149/paicoin/paicoin
+RUN sh ./autogen.sh && ./configure --enable-debug
+RUN make -j 8
+RUN make install
+
+# Remove paicoin source
+#RUN rm -rf /home/j1149/paicoin
+
+#RUN touch /etc/profile.d/add_crypto_to_path.sh
+#RUN echo "export PATH=/opt/bitcoin-0.18.1/bin:$PATH" >> /etc/profile.d/add_crypto_to_path.sh
+#RUN echo "echo $PATH" >> /etc/profile.d/add_crypto_to_path.sh
+#RUN echo "export PATH=/opt/bitcoin-0.18.1/bin:$PATH" >> /etc/profile
+#RUN /bin/bash -c "source /etc/profile"
+
+# This is the only thing that worked to add bitcoin to the path.
+# I'm leaving the rest up there because I would like to investigate
+# later what went wrong.
+RUN apt install -y gdb
+ENV PATH=/opt/bitcoin-0.18.1/bin:${CONDA_PREFIX}/bin:$PATH 
+#USER j1149
+RUN ${CONDA_PREFIX}/bin/pip install flask
+RUN ${CONDA_PREFIX}/bin/pip install python-bitcoinrpc 
+RUN ${CONDA_PREFIX}/bin/pip install requests
+RUN apt-get install -y vim iproute2 curl htop
+
+RUN ls -la /home/j1149/
+COPY ./crypto.conf /home/j1149/.paicoin/crypto.conf
+RUN ls -la /home/j1149/.paicoin
+# debug tools
+COPY . .
+EXPOSE 8675 5000
+ENTRYPOINT ./entrypoint.sh

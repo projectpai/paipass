@@ -1,0 +1,20 @@
+@import "./assets/bootstrap/bootstrap-grid.scss";
+@import "./assets/bootstrap/utilities/spacing";
+@import "./assets/scss/main.scss";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-fluid {
+  flex: 1 0 auto;
+}

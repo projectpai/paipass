@@ -1,0 +1,44 @@
+.status {
+  width: 30px;
+  height: 30px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  span {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+  }
+
+  svg {
+    display: block;
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+}
+
+.NOT_VERIFIED_PENDING {
+  border: dotted red 1px;
+  color: red;
+}
+
+.NOT_VERIFIED {
+  color: red;
+}
+
+.VERIFIED {
+  border: solid green 1px;
+  color: green;
+}
+
+
+.VERIFIED_PENDING {
+  border: dotted orange 1px;
+  color: orange;
+}
+

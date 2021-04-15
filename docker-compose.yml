@@ -1,0 +1,205 @@
+version: '3.8'
+
+services:
+    cache:
+      image: "redis:6.0.10"
+      command: redis-server --requirepass ${CACHE_PASS} --maxmemory 256mb --maxmemory-policy allkeys-lru --appendonly yes
+      networks:
+        - paipassnet
+    db:
+      image: "postgres:12"
+      ports:
+        - 5432:5432
+      restart: always
+      environment:
+        POSTGRES_USER: ${SQL_USER} 
+        POSTGRES_PASSWORD: ${SQL_PASS}
+        POSTGRES_DB: ${PAIPASS_DB_NAME}
+      networks:
+        - paipassnet
+
+    frontend:
+
+      build: 
+        context: ./frontend
+        args:
+          - FRONTEND_BUILD_VERSION=demo
+          - DEPLOYMENT_ENVIRONMENT=${DEPLOYMENT_ENVIRONMENT}
+          - REACT_APP_API_URL=${SCHEME}${BACKEND_HOST}:${BACKEND_PORT}
+          - WS_REACT_APP_API_URL=${WS_SCHEME}${BACKEND_HOST}:${BACKEND_PORT}
+          - FRONTEND_HOST=${FRONTEND_HOST}
+          - PORT=${FRONTEND_PORT}
+      stdin_open: true
+
+      ports:
+        - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+      networks:
+        - paipassnet
+
+    admin:
+      env_file:
+        - ./env_files/dev.env
+      build: 
+        context: ./admin
+        args:
+          - FRONTEND_BUILD_VERSION=demo
+          - DEPLOYMENT_ENVIRONMENT=${DEPLOYMENT_ENVIRONMENT}
+          - REACT_APP_BASE_URL=${SCHEME}${BACKEND_HOST}:${BACKEND_PORT}
+          - ADMIN_HOST=${ADMIN_HOST}
+          - PORT=${ADMIN_PORT}
+      ports:
+        - "${ADMIN_PORT}:${ADMIN_PORT}"
+      networks:
+        - paipassnet
+
+    backend:
+      env_file:
+        - ./env_files/dev.env
+      build: 
+        context: ./ 
+        dockerfile: ./backend/Dockerfile     
+      entrypoint: ./entrypoint.sh
+
+      command: /usr/local/bin/gunicorn --access-logfile - --log-level debug --workers 4 -k uvicorn.workers.UvicornWorker --reload --env DJANGO_SETTINGS_MODULE=backend.settings --chdir /opt/project --pythonpath /opt/project --bind 0.0.0.0:8000 backend.asgi:application -t 0
+
+      ports:
+        - "${BACKEND_PORT}:8000"
+      environment:
+        SCHEME: ${SCHEME}
+        
+        DATA_ROOT: ${DATA_ROOT}
+
+        FRONTEND_HOST: ${FRONTEND_HOST}
+        FRONTEND_PORT: ${FRONTEND_PORT}
+
+        ADMIN_HOST: ${ADMIN_HOST}
+        ADMIN_PORT: ${ADMIN_PORT}
+
+        BACKEND_HOST: ${BACKEND_HOST}
+        BACKEND_PORT: ${BACKEND_PORT}
+
+        PAIFORUM_HOST: ${PAIFORUM_HOST}
+        PAIFORUM_PORT: ${PAIFORUM_PORT}
+        
+        CATENA_HOST: ${CATENA_HOST}
+        CATENA_PORT: ${CATENA_PORT}
+
+        PAIPASS_DJANGO_SECRET: ${PAIPASS_DJANGO_SECRET}
+        DATA_DIR: ${BACKEND_DATA_DIR}
+
+        CACHE_HOST: ${CACHE_HOST}
+        CACHE_PORT: ${CACHE_PORT}
+        CACHE_PASS: ${CACHE_PASS}
+
+        SQL_HOST: ${SQL_HOST}
+        SQL_PORT: ${SQL_PORT}
+        SQL_USER: ${SQL_USER}
+        SQL_PASS: ${SQL_PASS}
+
+        DEPLOYMENT_ENVIRONMENT: ${DEPLOYMENT_ENVIRONMENT} 
+
+        CRYPTO_HOST: ${CRYPTO_HOST}
+        CRYPTO_PORT: ${CRYPTO_PORT}
+        CRYPTO_USER: ${CRYPTO_USER}
+        CRYPTO_PASS: ${CRYPTO_PASS}
+
+        TORRENT_HOST: ${TORRENT_HOST}
+        TORRENT_PORT: ${TORRENT_PORT}
+
+        BLOCKCHAIN_TYPE: ${BLOCKCHAIN_TYPE}
+        BLOCKCHAIN_NET: ${BLOCKCHAIN_NET}
+        PAIPASS_DB_NAME: ${PAIPASS_DB_NAME}
+
+        PAICOIN_SERVER_EMAIL: ${PAICOIN_SERVER_EMAIL}
+        PAICOIN_SERVER_PASS: ${PAICOIN_SERVER_PASS}
+
+        PAIFORUM_APP_UUID: ${PAIFORUM_APP_UUID}
+        PAIFORUM_APP_CLIENT_ID: ${PAIFORUM_APP_CLIENT_ID}
+        PAIFORUM_APP_CLIENT_SECRET: ${PAIFORUM_APP_CLIENT_SECRET}
+        
+        CATENA_APP_UUID: ${CATENA_APP_UUID}
+        CATENA_APP_CLIENT_ID: ${CATENA_APP_CLIENT_ID}
+        CATENA_APP_CLIENT_SECRET: ${CATENA_APP_CLIENT_SECRET}
+        CATENA_SCHEMA_ASSET_UUID: ${CATENA_SCHEMA_ASSET_UUID}
+
+        PAIPASS_DEV_EMAIL: ${PAIPASS_DEV_EMAIL}
+        PAIPASS_DEV_PASS: ${PAIPASS_DEV_PASS}
+        PAIPASS_DEV_APP_UUID: ${PAIPASS_DEV_APP_UUID}
+        PAIPASS_DEV_PDP2_TXID: ${PAIPASS_DEV_PDP2_TXID}
+        PAIPASS_DEV_PDP2_REF: ${PAIPASS_DEV_PDP2_REF}
+        PAIPASS_DEV_PDP2_UUID: ${PAIPASS_DEV_PDP2_UUID}
+        PAIPASS_DEV_PHONE: ${PAIPASS_DEV_PHONE}
+
+        TEST_OAUTH2_END_USER_EMAIL: ${TEST_OAUTH2_END_USER_EMAIL}
+        TEST_OAUTH2_USER_EMAIL: ${TEST_OAUTH2_USER_EMAIL}
+        TEST_OAUTH_PASS: ${TEST_OAUTH_PASS}
+        TEST_OAUTH2_CLIENT_ID: ${TEST_OAUTH2_CLIENT_ID}
+        TEST_OAUTH2_CLIENT_SECRET: ${TEST_OAUTH2_CLIENT_SECRET}
+        
+        TEST_PDP2_USER_EMAIL: ${TEST_PDP2_USER_EMAIL}
+        TEST_PDP2_USER_PASS: ${TEST_PDP2_USER_PASS}
+      
+        AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+        AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+        AWS_STORAGE_BUCKET_NAME: ${AWS_STORAGE_BUCKET_NAME}
+
+        NEW_INFO_HASH_DELIM: ${NEW_INFO_HASH_DELIM}
+        SSO_SECRET_DISCOURSE: ${SSO_SECRET_DISCOURSE}
+        REGION_NAME: ${REGION_NAME}
+
+        CONFINEMENT: ${CONFINEMENT}
+        ACCOUNTS_EMAIL: ${ACCOUNTS_EMAIL}
+
+      networks:
+        - paipassnet
+
+    paicoin:
+      image: paicoin:testchange
+      env_file:
+        - ./env_files/dev.env
+      build: 
+        context: ./paicoin
+        dockerfile: ./Dockerfile
+      entrypoint: /bin/bash /home/j1149/paicoin/entrypoint.sh
+      command: /opt/conda/bin/python /home/j1149/paicoin/app.py
+      init: true
+      # IIRC, security_opt: -seccomp:unconfined is needed for debugging via gcc
+      security_opt:
+        - seccomp:unconfined
+
+      environment:
+        CRYPTO_HOST: ${CRYPTO_HOST}
+        CRYPTO_PORT: ${CRYPTO_PORT}
+        CRYPTO_USER: ${CRYPTO_USER}
+        CRYPTO_PASS: ${CRYPTO_PASS}
+        DB_HOST: ${NOSQL_HOST}
+        DB_PORT: ${NOSQL_PORT}
+        MINER_HOST: miner
+        MINER_PORT: 5000
+        BALANCE_THRESHOLD: 0.01
+        BALANCE_OPTIMUM: 1.0
+        PAICOIN_SERVER_EMAIL: ${PAICOIN_SERVER_EMAIL}
+        PAICOIN_SERVER_PASS: ${PAICOIN_SERVER_PASS}
+        BACKEND_HOST: ${BACKEND_HOST_INTERNAL}
+        BACKEND_PORT: ${BACKEND_PORT_INTERNAL}
+        WALLET_PATH: ${PAICOIN_WALLET_PATH}
+        S3_WALLET_PATH: ${PAICOIN_S3_WALLET_PATH}
+        S3_BUCKET_NAME: ${PAICOIN_S3_BUCKET_NAME}
+        AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+        AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+        DEPLOYMENT_ENVIRONMENT: ${DEPLOYMENT_ENVIRONMENT}
+
+      depends_on:
+        - backend
+      networks:
+        paipassnet:
+          aliases:
+             - paicoin
+
+
+
+      
+networks:
+  paipassnet:
+          name: paipassnet
+          driver: bridge

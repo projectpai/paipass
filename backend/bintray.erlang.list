@@ -1,0 +1,3 @@
+# This repository provides Erlang packages produced by the RabbitMQ team
+# See below for supported distribution and component values
+deb http://dl.bintray.com/rabbitmq-erlang/debian bionic erlang-22.x

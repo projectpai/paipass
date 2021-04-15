@@ -1,0 +1,12 @@
+.success-message {
+  display: none;
+  background-color: #c7f1bc;
+  border-radius: 6px;
+  opacity: 0;
+  transition: all ease 1s;
+
+  &.show {
+    display: block;
+    opacity: 1;
+  }
+}

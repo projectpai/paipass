@@ -1,0 +1,25 @@
+@import '~include-media/dist/include-media';
+
+.new-message {
+    width: 100%;
+
+    &__preview {
+        position: fixed;
+        width: 260px;
+        top: 64px; left: 50%;
+        transform: translate(-50%, 0);
+    }
+
+    @include media('>tablet') {        
+        &__preview {
+            position: static;
+            margin-left: 32px;
+            transform: translate(0, 0);
+        }
+    }
+}
+
+.submit-new {
+    float: right;
+    margin-right: 16px;
+}

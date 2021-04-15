@@ -1,0 +1,52 @@
+{
+    "title": "Uncle Saba's Poppadoms Original Lentil Chips",
+    "description": "Healthy Lentil Chips with more protein",
+    "type": "Food",
+    "ingredients":
+        [
+             "Lentil Chips",
+             "Vegetable Oil",
+             "Seasoning Powder"
+        ],
+    "manufacturer": "Uncle Saba's",
+    "batchNumber": 1234,
+    "countryOfOrigin": "Malaysia",
+    "expirationDate": "2022-10-15T12:00:00Z",
+    "primaryImage": "https://lanier-example-bucket.s3-us-west-2.amazonaws.com/poppadoms-lentil-chips-crop-rounded-corners.png",
+    "secondaryImage": "https://lanier-example-bucket.s3-us-west-2.amazonaws.com/lentil-chips-nutrition-crop-rounded-corners.png",
+    "secondaryImageTitle": "Nutrition Facts",
+    "verifiedProperties":
+        [
+             "Gluten Free",
+             "Vegetarian",
+             "Trans-fat Free",
+             "Halal"
+        ],
+    "timelineEvents":
+        [
+             {
+                  "eventName": "Transaction Initiated",
+                  "timestamp": "2020-05-13T04:35:22Z"
+             },
+             {
+                 "eventName": "Ingredients Sourced For Processing",
+                 "timestamp": "2020-05-13T11:21:05Z"
+              },
+              {
+                  "eventName": "Manufacture Complete",
+                  "timestamp": "2020-05-15T15:42:31Z"
+              },
+              {
+                  "eventName": "Shipped to Wholesale Facility",
+                  "timestamp": "2020-05-17T03:31:45Z"
+              },
+              {
+                  "eventName": "Inspection Passed",
+                  "timestamp": "2020-05-18T21:14:38Z"
+              },
+              {
+                  "eventName": "Shipped to Retail Store",
+                  "timestamp": "2020-05-19T09:59:51Z"
+              }
+        ]
+}

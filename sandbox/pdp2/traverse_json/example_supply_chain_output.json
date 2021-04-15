@@ -1,0 +1,54 @@
+{
+  "count": 5,
+  "field1": {
+    "fieldType": "PRIMITIVE",
+    "name": "title",
+    "selectedFieldType": "Text"
+  },
+  "field2": {
+    "count": 1,
+    "field1": {
+      "fieldType": "PRIMITIVE",
+      "name": "ingredient",
+      "selectedFieldType": "Text"
+    },
+    "fieldType": "LIST",
+    "name": "ingredients"
+  },
+  "field3": {
+    "fieldType": "PRIMITIVE",
+    "name": "primaryImage",
+    "selectedFieldType": "Text"
+  },
+  "field4": {
+    "count": 1,
+    "field1": {
+      "fieldType": "PRIMITIVE",
+      "name": "Property",
+      "selectedFieldType": "Text"
+    },
+    "fieldType": "LIST",
+    "name": "Verified Properties"
+  },
+  "field5": {
+    "count": 1,
+    "field1": {
+      "count": 2,
+      "field1": {
+        "fieldType": "PRIMITIVE",
+        "name": "Event Name",
+        "selectedFieldType": "Text"
+      },
+      "field2": {
+        "fieldType": "PRIMITIVE",
+        "name": "Timestamp",
+        "selectedFieldType": "Date"
+      },
+      "fieldType": "OBJECT",
+      "name": "Timeline Event"
+    },
+    "fieldType": "LIST",
+    "name": "Timeline Events"
+  },
+  "name": "20200808supplychain"
+}

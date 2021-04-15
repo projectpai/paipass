@@ -1,0 +1,13 @@
+.pai-video {
+    width: 320px;
+    height: 480px;
+
+    &.mirror {
+        transform: rotateY(180deg);
+    }
+      
+    &.mirror::-webkit-media-controls-panel {
+        transform: rotateY(180deg);
+    }
+}
+

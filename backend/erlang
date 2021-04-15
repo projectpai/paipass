@@ -1,0 +1,4 @@
+# /etc/apt/preferences.d/erlang
+Package: erlang*
+Pin: version 1:22.2.1
+Pin-Priority: 1000

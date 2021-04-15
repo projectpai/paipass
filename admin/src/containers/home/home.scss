@@ -1,0 +1,11 @@
+@import '~include-media/dist/include-media';
+
+.home {
+    margin: 24px 8px;
+
+    @include media('>tablet') {
+        max-width: 800px;
+        margin: 24px auto;
+        padding: 0 8px;
+    }
+}

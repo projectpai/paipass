@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+    frontend:
+      build: 
+        context: ./frontend
+        args:
+          - FRONTEND_BUILD_VERSION=demo
+          - DEPLOYMENT_ENVIRONMENT=production
+          - REACT_APP_API_URL=${SCHEME}${BACKEND_HOST}
+          - REACT_APP_WS_API_URL=${WS_SCHEME}${BACKEND_HOST}
+          - FRONTEND_HOST=${FRONTEND_HOST}
+          - PORT=${FRONTEND_PORT}
+      ports:
+        - 80:80
+        - 443:80
+      networks:
+        - paipassnet
+      
+networks:
+  paipassnet:

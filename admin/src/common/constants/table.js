@@ -1,0 +1,11 @@
+const DEFAULT_PAGE_SIZE = 10;
+const DEFAULT_ORDER_BY = 'email';
+const DESCENDING = 'DESC';
+const ASCENDING = 'ASC';
+
+export {
+    DEFAULT_PAGE_SIZE,
+    DEFAULT_ORDER_BY,
+    DESCENDING,
+    ASCENDING,
+}

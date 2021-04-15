@@ -1,0 +1,25 @@
+.reviews {
+    padding: 8px;
+
+    h3 { margin-top: 16px; }
+
+    .filter {
+    
+        &__email .bp3-popover-wrapper {
+            width: 100%;
+            .bp3-popover-target { width: 100%; }
+        }
+
+        &__status .bp3-popover-wrapper {
+            width: 100%;👉
+            .bp3-popover-target { width: 100%; }
+            .bp3-button { width: 100%; }
+        }
+
+    }
+}
+
+.-review-filter__email .bp3-menu {
+    height: 50vh;
+    overflow-y: auto;
+}

@@ -1,0 +1,43 @@
+.manage-pdp2-rt {
+  .app-bar {
+    background-color: transparent;
+    box-shadow: none;
+    align-content: center;
+  }
+
+  .MuiIconButton-colorPrimary-60 {
+    color: #1590ea;
+  }
+
+  .sub-menu {
+    display: flex;
+    justify-content: center;
+
+    div {
+      margin: 8px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      &:nth-of-type(1) {
+        svg {
+          margin-bottom: 5px;
+          font-size: 20px;
+        }
+      }
+
+      span {
+        font-size: 8px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .pdp2-tab-panel {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    
+  }
+}

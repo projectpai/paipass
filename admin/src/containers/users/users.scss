@@ -1,0 +1,12 @@
+.users {
+    padding: 8px;
+    
+    h3 { margin-top: 16px; }
+
+    &-confirm-remove-user {
+        &__message {
+            padding: 16px;
+            text-align: center;
+        }
+    }
+}

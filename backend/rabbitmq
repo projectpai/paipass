@@ -1,0 +1,4 @@
+# /etc/apt/preferences.d/rabbitmq
+Package: rabbitmq-server
+Pin: version 1:3.8.2
+Pin-Priority: 1000

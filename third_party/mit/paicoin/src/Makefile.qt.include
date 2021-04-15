@@ -1,0 +1,466 @@
+# Copyright (c) 2013-2016 The Bitcoin Core developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+bin_PROGRAMS += qt/paicoin-qt
+EXTRA_LIBRARIES += qt/libpaicoinqt.a
+
+# paicoin qt core #
+QT_TS = \
+  qt/locale/paicoin_af.ts \
+  qt/locale/paicoin_af_ZA.ts \
+  qt/locale/paicoin_ar.ts \
+  qt/locale/paicoin_be_BY.ts \
+  qt/locale/paicoin_bg_BG.ts \
+  qt/locale/paicoin_bg.ts \
+  qt/locale/paicoin_ca_ES.ts \
+  qt/locale/paicoin_ca.ts \
+  qt/locale/paicoin_ca@valencia.ts \
+  qt/locale/paicoin_cs.ts \
+  qt/locale/paicoin_cy.ts \
+  qt/locale/paicoin_da.ts \
+  qt/locale/paicoin_de.ts \
+  qt/locale/paicoin_el_GR.ts \
+  qt/locale/paicoin_el.ts \
+  qt/locale/paicoin_en_GB.ts \
+  qt/locale/paicoin_en.ts \
+  qt/locale/paicoin_eo.ts \
+  qt/locale/paicoin_es_AR.ts \
+  qt/locale/paicoin_es_CL.ts \
+  qt/locale/paicoin_es_CO.ts \
+  qt/locale/paicoin_es_DO.ts \
+  qt/locale/paicoin_es_ES.ts \
+  qt/locale/paicoin_es_MX.ts \
+  qt/locale/paicoin_es.ts \
+  qt/locale/paicoin_es_UY.ts \
+  qt/locale/paicoin_es_VE.ts \
+  qt/locale/paicoin_et_EE.ts \
+  qt/locale/paicoin_et.ts \
+  qt/locale/paicoin_eu_ES.ts \
+  qt/locale/paicoin_fa_IR.ts \
+  qt/locale/paicoin_fa.ts \
+  qt/locale/paicoin_fi.ts \
+  qt/locale/paicoin_fr_CA.ts \
+  qt/locale/paicoin_fr_FR.ts \
+  qt/locale/paicoin_fr.ts \
+  qt/locale/paicoin_gl.ts \
+  qt/locale/paicoin_he.ts \
+  qt/locale/paicoin_hi_IN.ts \
+  qt/locale/paicoin_hr.ts \
+  qt/locale/paicoin_hu.ts \
+  qt/locale/paicoin_id_ID.ts \
+  qt/locale/paicoin_it_IT.ts \
+  qt/locale/paicoin_it.ts \
+  qt/locale/paicoin_ja.ts \
+  qt/locale/paicoin_ka.ts \
+  qt/locale/paicoin_kk_KZ.ts \
+  qt/locale/paicoin_ko_KR.ts \
+  qt/locale/paicoin_ku_IQ.ts \
+  qt/locale/paicoin_ky.ts \
+  qt/locale/paicoin_la.ts \
+  qt/locale/paicoin_lt.ts \
+  qt/locale/paicoin_lv_LV.ts \
+  qt/locale/paicoin_mk_MK.ts \
+  qt/locale/paicoin_mn.ts \
+  qt/locale/paicoin_ms_MY.ts \
+  qt/locale/paicoin_nb.ts \
+  qt/locale/paicoin_ne.ts \
+  qt/locale/paicoin_nl.ts \
+  qt/locale/paicoin_pam.ts \
+  qt/locale/paicoin_pl.ts \
+  qt/locale/paicoin_pt_BR.ts \
+  qt/locale/paicoin_pt_PT.ts \
+  qt/locale/paicoin_ro_RO.ts \
+  qt/locale/paicoin_ro.ts \
+  qt/locale/paicoin_ru_RU.ts \
+  qt/locale/paicoin_ru.ts \
+  qt/locale/paicoin_sk.ts \
+  qt/locale/paicoin_sl_SI.ts \
+  qt/locale/paicoin_sq.ts \
+  qt/locale/paicoin_sr@latin.ts \
+  qt/locale/paicoin_sr.ts \
+  qt/locale/paicoin_sv.ts \
+  qt/locale/paicoin_ta.ts \
+  qt/locale/paicoin_th_TH.ts \
+  qt/locale/paicoin_tr_TR.ts \
+  qt/locale/paicoin_tr.ts \
+  qt/locale/paicoin_uk.ts \
+  qt/locale/paicoin_ur_PK.ts \
+  qt/locale/paicoin_uz@Cyrl.ts \
+  qt/locale/paicoin_vi.ts \
+  qt/locale/paicoin_vi_VN.ts \
+  qt/locale/paicoin_zh_CN.ts \
+  qt/locale/paicoin_zh_HK.ts \
+  qt/locale/paicoin_zh.ts \
+  qt/locale/paicoin_zh_TW.ts
+
+QT_FORMS_UI = \
+  qt/forms/addressbookpage.ui \
+  qt/forms/askpassphrasedialog.ui \
+  qt/forms/coincontroldialog.ui \
+  qt/forms/editaddressdialog.ui \
+  qt/forms/helpmessagedialog.ui \
+  qt/forms/intro.ui \
+  qt/forms/modaloverlay.ui \
+  qt/forms/openuridialog.ui \
+  qt/forms/optionsdialog.ui \
+  qt/forms/overviewpage.ui \
+  qt/forms/receivecoinsdialog.ui \
+  qt/forms/receiverequestdialog.ui \
+  qt/forms/debugwindow.ui \
+  qt/forms/sendcoinsdialog.ui \
+  qt/forms/sendcoinsentry.ui \
+  qt/forms/signverifymessagedialog.ui \
+  qt/forms/transactiondescdialog.ui
+
+QT_MOC_CPP = \
+  qt/moc_addressbookpage.cpp \
+  qt/moc_addresstablemodel.cpp \
+  qt/moc_askpassphrasedialog.cpp \
+  qt/moc_bantablemodel.cpp \
+  qt/moc_paicoinaddressvalidator.cpp \
+  qt/moc_paicoinamountfield.cpp \
+  qt/moc_paicoingui.cpp \
+  qt/moc_paicoinunits.cpp \
+  qt/moc_callback.cpp \
+  qt/moc_clientmodel.cpp \
+  qt/moc_coincontroldialog.cpp \
+  qt/moc_coincontroltreewidget.cpp \
+  qt/moc_csvmodelwriter.cpp \
+  qt/moc_editaddressdialog.cpp \
+  qt/moc_guiutil.cpp \
+  qt/moc_intro.cpp \
+  qt/moc_macdockiconhandler.cpp \
+  qt/moc_macnotificationhandler.cpp \
+  qt/moc_modaloverlay.cpp \
+  qt/moc_notificator.cpp \
+  qt/moc_openuridialog.cpp \
+  qt/moc_optionsdialog.cpp \
+  qt/moc_optionsmodel.cpp \
+  qt/moc_overviewpage.cpp \
+  qt/moc_peertablemodel.cpp \
+  qt/moc_paymentserver.cpp \
+  qt/moc_qvalidatedlineedit.cpp \
+  qt/moc_qvaluecombobox.cpp \
+  qt/moc_receivecoinsdialog.cpp \
+  qt/moc_receiverequestdialog.cpp \
+  qt/moc_recentrequeststablemodel.cpp \
+  qt/moc_rpcconsole.cpp \
+  qt/moc_sendcoinsdialog.cpp \
+  qt/moc_sendcoinsentry.cpp \
+  qt/moc_signverifymessagedialog.cpp \
+  qt/moc_splashscreen.cpp \
+  qt/moc_trafficgraphwidget.cpp \
+  qt/moc_transactiondesc.cpp \
+  qt/moc_transactiondescdialog.cpp \
+  qt/moc_transactionfilterproxy.cpp \
+  qt/moc_transactiontablemodel.cpp \
+  qt/moc_transactionview.cpp \
+  qt/moc_utilitydialog.cpp \
+  qt/moc_walletframe.cpp \
+  qt/moc_walletmodel.cpp \
+  qt/moc_walletview.cpp
+
+PAICOIN_MM = \
+  qt/macdockiconhandler.mm \
+  qt/macnotificationhandler.mm
+
+QT_MOC = \
+  qt/paicoin.moc \
+  qt/paicoinamountfield.moc \
+  qt/callback.moc \
+  qt/intro.moc \
+  qt/overviewpage.moc \
+  qt/rpcconsole.moc
+
+QT_QRC_CPP = qt/qrc_paicoin.cpp
+QT_QRC = qt/paicoin.qrc
+QT_QRC_LOCALE_CPP = qt/qrc_paicoin_locale.cpp
+QT_QRC_LOCALE = qt/paicoin_locale.qrc
+
+PROTOBUF_CC = qt/paymentrequest.pb.cc
+PROTOBUF_H = qt/paymentrequest.pb.h
+PROTOBUF_PROTO = qt/paymentrequest.proto
+
+PAICOIN_QT_H = \
+  qt/addressbookpage.h \
+  qt/addresstablemodel.h \
+  qt/askpassphrasedialog.h \
+  qt/bantablemodel.h \
+  qt/paicoinaddressvalidator.h \
+  qt/paicoinamountfield.h \
+  qt/paicoingui.h \
+  qt/paicoinunits.h \
+  qt/callback.h \
+  qt/clientmodel.h \
+  qt/coincontroldialog.h \
+  qt/coincontroltreewidget.h \
+  qt/csvmodelwriter.h \
+  qt/editaddressdialog.h \
+  qt/guiconstants.h \
+  qt/guiutil.h \
+  qt/intro.h \
+  qt/macdockiconhandler.h \
+  qt/macnotificationhandler.h \
+  qt/modaloverlay.h \
+  qt/networkstyle.h \
+  qt/notificator.h \
+  qt/openuridialog.h \
+  qt/optionsdialog.h \
+  qt/optionsmodel.h \
+  qt/overviewpage.h \
+  qt/paymentrequestplus.h \
+  qt/paymentserver.h \
+  qt/peertablemodel.h \
+  qt/platformstyle.h \
+  qt/qvalidatedlineedit.h \
+  qt/qvaluecombobox.h \
+  qt/receivecoinsdialog.h \
+  qt/receiverequestdialog.h \
+  qt/recentrequeststablemodel.h \
+  qt/rpcconsole.h \
+  qt/sendcoinsdialog.h \
+  qt/sendcoinsentry.h \
+  qt/signverifymessagedialog.h \
+  qt/splashscreen.h \
+  qt/trafficgraphwidget.h \
+  qt/transactiondesc.h \
+  qt/transactiondescdialog.h \
+  qt/transactionfilterproxy.h \
+  qt/transactionrecord.h \
+  qt/transactiontablemodel.h \
+  qt/transactionview.h \
+  qt/utilitydialog.h \
+  qt/walletframe.h \
+  qt/walletmodel.h \
+  qt/walletmodeltransaction.h \
+  qt/walletview.h \
+  qt/winshutdownmonitor.h
+
+RES_ICONS = \
+  qt/res/icons/add.png \
+  qt/res/icons/address-book.png \
+  qt/res/icons/about.png \
+  qt/res/icons/about_qt.png \
+  qt/res/icons/paicoin.ico \
+  qt/res/icons/paicoin_testnet.ico \
+  qt/res/icons/paicoin.png \
+  qt/res/icons/chevron.png \
+  qt/res/icons/clock1.png \
+  qt/res/icons/clock2.png \
+  qt/res/icons/clock3.png \
+  qt/res/icons/clock4.png \
+  qt/res/icons/clock5.png \
+  qt/res/icons/configure.png \
+  qt/res/icons/connect0.png \
+  qt/res/icons/connect1.png \
+  qt/res/icons/connect2.png \
+  qt/res/icons/connect3.png \
+  qt/res/icons/connect4.png \
+  qt/res/icons/debugwindow.png \
+  qt/res/icons/edit.png \
+  qt/res/icons/editcopy.png \
+  qt/res/icons/editpaste.png \
+  qt/res/icons/export.png \
+  qt/res/icons/eye.png \
+  qt/res/icons/eye_minus.png \
+  qt/res/icons/eye_plus.png \
+  qt/res/icons/filesave.png \
+  qt/res/icons/fontbigger.png \
+  qt/res/icons/fontsmaller.png \
+  qt/res/icons/hd_disabled.png \
+  qt/res/icons/hd_enabled.png \
+  qt/res/icons/history.png \
+  qt/res/icons/info.png \
+  qt/res/icons/key.png \
+  qt/res/icons/lock_closed.png \
+  qt/res/icons/lock_open.png \
+  qt/res/icons/network_disabled.png \
+  qt/res/icons/open.png \
+  qt/res/icons/overview.png \
+  qt/res/icons/quit.png \
+  qt/res/icons/receive.png \
+  qt/res/icons/remove.png \
+  qt/res/icons/send.png \
+  qt/res/icons/synced.png \
+  qt/res/icons/transaction0.png \
+  qt/res/icons/transaction2.png \
+  qt/res/icons/transaction_abandoned.png \
+  qt/res/icons/transaction_conflicted.png \
+  qt/res/icons/tx_inout.png \
+  qt/res/icons/tx_input.png \
+  qt/res/icons/tx_output.png \
+  qt/res/icons/tx_mined.png \
+  qt/res/icons/warning.png \
+  qt/res/icons/verify.png
+
+PAICOIN_QT_BASE_CPP = \
+  qt/bantablemodel.cpp \
+  qt/paicoinaddressvalidator.cpp \
+  qt/paicoinamountfield.cpp \
+  qt/paicoingui.cpp \
+  qt/paicoinunits.cpp \
+  qt/clientmodel.cpp \
+  qt/csvmodelwriter.cpp \
+  qt/guiutil.cpp \
+  qt/intro.cpp \
+  qt/modaloverlay.cpp \
+  qt/networkstyle.cpp \
+  qt/notificator.cpp \
+  qt/optionsdialog.cpp \
+  qt/optionsmodel.cpp \
+  qt/peertablemodel.cpp \
+  qt/platformstyle.cpp \
+  qt/qvalidatedlineedit.cpp \
+  qt/qvaluecombobox.cpp \
+  qt/rpcconsole.cpp \
+  qt/splashscreen.cpp \
+  qt/trafficgraphwidget.cpp \
+  qt/utilitydialog.cpp
+
+PAICOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
+
+PAICOIN_QT_WALLET_CPP = \
+  qt/addressbookpage.cpp \
+  qt/addresstablemodel.cpp \
+  qt/askpassphrasedialog.cpp \
+  qt/coincontroldialog.cpp \
+  qt/coincontroltreewidget.cpp \
+  qt/editaddressdialog.cpp \
+  qt/openuridialog.cpp \
+  qt/overviewpage.cpp \
+  qt/paymentrequestplus.cpp \
+  qt/paymentserver.cpp \
+  qt/receivecoinsdialog.cpp \
+  qt/receiverequestdialog.cpp \
+  qt/recentrequeststablemodel.cpp \
+  qt/sendcoinsdialog.cpp \
+  qt/sendcoinsentry.cpp \
+  qt/signverifymessagedialog.cpp \
+  qt/transactiondesc.cpp \
+  qt/transactiondescdialog.cpp \
+  qt/transactionfilterproxy.cpp \
+  qt/transactionrecord.cpp \
+  qt/transactiontablemodel.cpp \
+  qt/transactionview.cpp \
+  qt/walletframe.cpp \
+  qt/walletmodel.cpp \
+  qt/walletmodeltransaction.cpp \
+  qt/walletview.cpp
+
+PAICOIN_QT_CPP = $(PAICOIN_QT_BASE_CPP)
+if TARGET_WINDOWS
+PAICOIN_QT_CPP += $(PAICOIN_QT_WINDOWS_CPP)
+endif
+if ENABLE_WALLET
+PAICOIN_QT_CPP += $(PAICOIN_QT_WALLET_CPP)
+endif
+
+RES_IMAGES = 
+
+RES_MOVIES = $(wildcard $(srcdir)/qt/res/movies/spinner-*.png)
+
+PAICOIN_RC = qt/res/paicoin-qt-res.rc
+
+PAICOIN_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
+  -I$(builddir)/qt/forms -DQT_NO_KEYWORDS
+
+qt_libpaicoinqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(PAICOIN_INCLUDES) $(PAICOIN_QT_INCLUDES) \
+  $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
+qt_libpaicoinqt_a_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+
+qt_libpaicoinqt_a_SOURCES = $(PAICOIN_QT_CPP) $(PAICOIN_QT_H) $(QT_FORMS_UI) \
+  $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES)
+
+nodist_qt_libpaicoinqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
+  $(PROTOBUF_H) $(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
+
+# forms/foo.h -> forms/ui_foo.h
+QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:.ui=.h))))
+
+# Most files will depend on the forms and moc files as includes. Generate them
+# before anything else.
+$(QT_MOC): $(QT_FORMS_H)
+$(qt_libpaicoinqt_a_OBJECTS) $(qt_paicoin_qt_OBJECTS) : | $(QT_MOC)
+
+#Generating these with a half-written protobuf header leads to wacky results.
+#This makes sure it's done.
+$(QT_MOC): $(PROTOBUF_H)
+$(QT_MOC_CPP): $(PROTOBUF_H)
+
+# paicoin-qt binary #
+qt_paicoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(PAICOIN_INCLUDES) $(PAICOIN_QT_INCLUDES) \
+  $(QT_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
+qt_paicoin_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+
+qt_paicoin_qt_SOURCES = qt/paicoin.cpp
+if TARGET_DARWIN
+  qt_paicoin_qt_SOURCES += $(PAICOIN_MM)
+endif
+if TARGET_WINDOWS
+  qt_paicoin_qt_SOURCES += $(PAICOIN_RC)
+endif
+qt_paicoin_qt_LDADD = qt/libpaicoinqt.a $(LIBPAICOIN_SERVER)
+if ENABLE_WALLET
+qt_paicoin_qt_LDADD += $(LIBPAICOIN_WALLET)
+endif
+if ENABLE_ZMQ
+qt_paicoin_qt_LDADD += $(LIBPAICOIN_ZMQ) $(ZMQ_LIBS)
+endif
+qt_paicoin_qt_LDADD += $(LIBPAICOIN_CLI) $(LIBPAICOIN_COMMON) $(LIBPAICOIN_UTIL) $(LIBPAICOIN_CONSENSUS) $(LIBPAICOIN_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBLEVELDB_SSE42) $(LIBMEMENV) \
+  $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1) \
+  $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+qt_paicoin_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+qt_paicoin_qt_LIBTOOLFLAGS = --tag CXX
+
+#locale/foo.ts -> locale/foo.qm
+QT_QM=$(QT_TS:.ts=.qm)
+
+SECONDARY: $(QT_QM)
+
+$(srcdir)/qt/paicoinstrings.cpp: $(libpaicoin_server_a_SOURCES) $(libpaicoin_wallet_a_SOURCES) $(libpaicoin_common_a_SOURCES) $(libpaicoin_zmq_a_SOURCES) $(libpaicoin_consensus_a_SOURCES) $(libpaicoin_util_a_SOURCES)
+	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
+	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) PACKAGE_NAME="$(PACKAGE_NAME)" COPYRIGHT_HOLDERS="$(COPYRIGHT_HOLDERS)" COPYRIGHT_HOLDERS_SUBSTITUTION="$(COPYRIGHT_HOLDERS_SUBSTITUTION)" $(PYTHON) ../share/qt/extract_strings_qt.py $^
+
+translate: $(srcdir)/qt/paicoinstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(PAICOIN_QT_BASE_CPP) qt/paicoin.cpp $(PAICOIN_QT_WINDOWS_CPP) $(PAICOIN_QT_WALLET_CPP) $(PAICOIN_QT_H) $(PAICOIN_MM)
+	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts $(srcdir)/qt/locale/paicoin_en.ts
+
+$(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
+	@test -f $(RCC)
+	@cp -f $< $(@D)/temp_$(<F)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name paicoin_locale $(@D)/temp_$(<F) | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+	@rm $(@D)/temp_$(<F)
+
+$(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES) $(PROTOBUF_H)
+	@test -f $(RCC)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name paicoin $< | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+CLEAN_QT = $(nodist_qt_libpaicoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno
+
+CLEANFILES += $(CLEAN_QT)
+
+paicoin_qt_clean: FORCE
+	rm -f $(CLEAN_QT) $(qt_libpaicoinqt_a_OBJECTS) $(qt_paicoin_qt_OBJECTS) qt/paicoin-qt$(EXEEXT) $(LIBPAICOINQT)
+
+paicoin_qt : qt/paicoin-qt$(EXEEXT)
+
+ui_%.h: %.ui
+	@test -f $(UIC)
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(UIC) -o $@ $< || (echo "Error creating $@"; false)
+
+%.moc: %.cpp
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(MOC) $(DEFAULT_INCLUDES) $(QT_INCLUDES) $(MOC_DEFS) $< | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+moc_%.cpp: %.h
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(MOC) $(DEFAULT_INCLUDES) $(QT_INCLUDES) $(MOC_DEFS) $< | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+%.qm: %.ts
+	@test -f $(LRELEASE)
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LRELEASE) -silent $< -qm $@

@@ -1,0 +1,59 @@
+.pai-messages-container-rt {
+
+  //height: 70vh;
+
+  .app-bar {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .pai-messages-container {
+
+    .pai-messages-threads {
+
+    }
+
+    .pai-thread-row {
+      border: 1px;
+      background-color: #0a6640;
+    }
+
+    @supports (overflow-anchor: auto) {
+      .messages {
+        flex-direction: column;
+      }
+    }
+
+    .pai-message {
+      border-radius: 12px;
+      margin: 3px;
+      padding: 6px;
+      display: inline-block;
+    }
+
+    .pai-message-self {
+      background-color: darkgrey;
+      color: white;
+
+    }
+    .pai-message-them {
+      background-color: #1fafea;
+      color: white;
+
+    }
+
+    .pai-msg-list-item {
+      flex: 1;
+
+    }
+
+    .pai-message-list {
+      height: 70vh;
+    }
+
+    .pai-send-message {
+      height: 10vh;
+      position: fixed;
+    }
+  }
+}

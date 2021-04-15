@@ -1,0 +1,15 @@
+.region {
+    padding: 8px;
+
+    .bp3-heading {
+        margin: 0;
+        margin-right: 16px; 
+    }
+
+    .timezone {
+        font-weight: bold;
+        color: rgba(0,0,0,.3);
+        font-style: italic;
+        cursor: pointer;
+    }
+}

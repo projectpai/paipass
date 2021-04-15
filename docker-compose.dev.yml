@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+    localstack:
+      image: localstack/localstack
+      ports:
+        - "4566:4566"
+        - "4579:4579"
+        - "4571:4571"
+        - "${PORT_WEB_UI-8080}:${PORT_WEB_UI-8080}"
+      environment:
+        - SERVICES=s3,sns,ses
+        - PORT_WEB_UI=${PORT_WEB_UI-8080}
+        - DATA_DIR=/tmp
+      volumes:
+      - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
+      networks:
+        - paipassnet
+    backend:
+      environment:
+        CONFINEMENT: LOCAL_ONLY
+
+networks:
+  paipassnet:
+          name: paipassnet
+          driver: bridge

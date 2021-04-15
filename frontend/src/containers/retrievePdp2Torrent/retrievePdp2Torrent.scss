@@ -1,0 +1,58 @@
+.retrieve-pdp2-torrent-rt {
+  .app-bar {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .MuiIconButton-colorPrimary-60 {
+    color: #1590ea;
+  }
+
+  .subHeading {
+    color: #1590ea;
+    font-size: 16px;
+    background-color: #eeeeee;
+  }
+  .sub-menu {
+    display: flex;
+    justify-content: center;
+
+    div {
+      margin: 8px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      &:nth-of-type(1) {
+        svg {
+          margin-bottom: 5px;
+          font-size: 20px;
+        }
+      }
+
+      span {
+        font-size: 8px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .form {
+    .icon {
+      margin-left: 4px;
+
+      &.success {
+        color: #34ab3a;
+      }
+
+      &.warning {
+        color: #f1c376;
+      }
+
+      &.error {
+        color: #e71d1d;
+      }
+    }
+  }
+}

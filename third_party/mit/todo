@@ -1,0 +1,13 @@
+https://softwareengineering.stackexchange.com/questions/178486/what-exactly-does-the-condition-in-the-mit-license-imply
+
+The commercial software would need to include the copyright notice for the work it has used. It doesn't mean the entire commercial work is then licensed under the MIT license.
+
+For example, I would expect to see the copyright notice for the commercial software, with the following wording added:
+
+This software includes the Yannbane Awesome Library: Copyright (C) 2012 Yannbane
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+So by including the license, they are letting people know what terms the "Yannbane Awesome Library" is licensed under - as it is different to the terms of the wider commercial application.

@@ -1,0 +1,54 @@
+{
+  "count": 4,
+  "field1": {
+    "fieldType": "PRIMITIVE",
+    "name": "sdffdsfsdf",
+    "selectedFieldType": "Text"
+  },
+  "field2": {
+    "fieldType": "PRIMITIVE",
+    "name": "sdfdfssdfsdf",
+    "selectedFieldType": "Text"
+  },
+  "field3": {
+    "count": 2,
+    "field1": {
+      "fieldType": "PRIMITIVE",
+      "name": "wqawwdada",
+      "selectedFieldType": "Text"
+    },
+    "field2": {
+      "count": 1,
+      "field1": {
+        "fieldType": "PRIMITIVE",
+        "name": "asdasdsaad",
+        "selectedFieldType": "Text"
+      },
+      "fieldType": "OBJECT",
+      "name": "asdasdadassd"
+    },
+    "fieldType": "OBJECT",
+    "name": "sdffsddf"
+  },
+  "field4": {
+    "count": 1,
+    "field1": {
+      "count": 2,
+      "field1": {
+        "fieldType": "PRIMITIVE",
+        "name": "asdasd",
+        "selectedFieldType": "Text"
+      },
+      "field2": {
+        "fieldType": "PRIMITIVE",
+        "name": "asdassd",
+        "selectedFieldType": "Text"
+      },
+      "fieldType": "OBJECT",
+      "name": "sscsaasads"
+    },
+    "fieldType": "LIST",
+    "name": "sdaadsadsads"
+  },
+  "name": "sdfsdfsdfsdffsdf"
+}

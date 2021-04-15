@@ -1,0 +1,26 @@
+.pdp2-profile-switch {
+  .requested-scope {
+    div {
+      &:nth-of-type(1) {
+        span {
+          color: #67676d;
+          margin-left: 2px;
+
+          svg {
+            font-size: 12px;
+            vertical-align: middle;
+          }
+        }
+      }
+
+      &::nth-of-type(2) {
+        font-size: 12px;
+      }
+    }
+
+    > span {
+      color: #67676d;
+      font-size: 12px;
+    }
+  }
+}

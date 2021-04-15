@@ -1,0 +1,23 @@
+%indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-indicator {
+    &__title {
+        white-space: initial;
+        overflow-wrap: break-word;
+    }
+
+    &__positive {
+        @extend %indicator;
+        background-color: #3DCC91;
+    }
+    
+    &__negative {
+        @extend %indicator;
+        background-color: #F55656;     
+    }
+}

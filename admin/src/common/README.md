@@ -1,0 +1,1 @@
+Shared consists of components and reducers, and other utils (ie: datamanager, middleware...)

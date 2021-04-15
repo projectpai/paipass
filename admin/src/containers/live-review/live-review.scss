@@ -1,0 +1,19 @@
+@import '~include-media/dist/include-media';
+
+.live-review {
+    margin: 24px 8px;
+
+    @include media('>tablet') {
+        max-width: 800px;
+        margin: 24px auto;
+        padding: 0 8px;
+    }
+
+    .reviews {
+        margin: 8px 0;
+        padding: 0;
+        list-style-type: none;
+
+        .bp3-card { padding: 0; }
+    }
+}

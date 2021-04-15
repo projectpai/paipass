@@ -1,0 +1,10 @@
+.paipass-logo {
+  max-width: 358px;
+  margin: auto;
+
+  & + div {
+    h2 {
+      text-align: center;
+    }
+  }
+}

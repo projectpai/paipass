@@ -1,0 +1,4 @@
+version" 1
+task_definition:
+    ecs_network_mode: awsvpc
+    taske_role_arn:
