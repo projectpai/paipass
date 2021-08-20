@@ -14,21 +14,23 @@ from attributes.models import Attribute
 from attributes import attributes
 
 from django.utils.functional import lazy
+from django.conf import settings
+logger = settings.LOGGER
 
 
-def _get_paipass_app():
+def get_paipass_app():
     return PaipassApplication.objects.all().get(namespace__iexact='paipass')
 
 
-get_paipass_app = lazy(_get_paipass_app, PaipassApplication)
+# get_paipass_app = lazy(_get_paipass_app, PaipassApplication)
 
 
-def _get_paipass_addr_attr():
+def get_paipass_addr_attr():
     return Attribute.objects.all().get(application=get_paipass_app(),
                                        name__iexact='paicoin_address')
 
 
-get_paipass_addr_attr = lazy(_get_paipass_addr_attr, Attribute)
+# get_paipass_addr_attr = lazy(_get_paipass_addr_attr, Attribute)
 
 
 class MessagePagination(PageNumberPagination):
@@ -156,9 +158,11 @@ def get_new_thread_info(requesting_user, data):
     thread_info.application = application
 
     actual_recipients = set()
+    paipass_addr_attr = get_paipass_addr_attr()
+    paipass_app = get_paipass_app()
     for recipient in recipients:
-        actual_recipient = attributes.retrieve_user_from_datum(attr=get_paipass_addr_attr(),
-                                                               owning_app=get_paipass_app(),
+        actual_recipient = attributes.retrieve_user_from_datum(attr=paipass_addr_attr,
+                                                               owning_app=paipass_app,
                                                                data=recipient)
 
         if actual_recipient is not None and actual_recipient not in actual_recipients:
@@ -169,8 +173,8 @@ def get_new_thread_info(requesting_user, data):
 
     if requesting_user not in thread_info.recipients:
         ad = attributes.create_or_retrieve_attribute_datum(requesting_user,
-                                                           get_paipass_addr_attr(),
-                                                           get_paipass_app())
+                                                           paipass_addr_attr,
+                                                           paipass_app)
         representation = ad.data
         tri = ThreadRecipientInfo(user_orm=requesting_user,
                                   representation=representation)
@@ -204,38 +208,44 @@ def check_for_existing_thread(thread_info):
 class ThreadView(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
-        thread_info = get_new_thread_info(request.user, request.data)
+        try:
+            thread_info = get_new_thread_info(request.user, request.data)
 
-        if thread_info.application is None:
-            return Response({'detail': f"Can't find registered application with the specified client-id/namespace"})
-        if thread_info is None:
-            return Response({'detail': 'No thread data found'}, status=status.HTTP_400_BAD_REQUEST)
-        # 2 because there should at least be one person in there no matter what (the thread owner)
-        if len(thread_info.recipients) < 2:
-            return Response({'no recipients found'}, status=status.HTTP_400_BAD_REQUEST)
-        if thread_info.owner is None:
-            raise Exception(f'Thread owner is somehow None despite the request.user ({request.user}) probably not being'
-                            f' None.')
+            if thread_info.application is None:
+                return Response({'detail': f"Can't find registered application with the specified client-id/namespace"})
+            if thread_info is None:
+                return Response({'detail': 'No thread data found'}, status=status.HTTP_400_BAD_REQUEST)
+            # 2 because there should at least be one person in there no matter what (the thread owner)
+            if len(thread_info.recipients) < 2:
+                return Response({'no recipients found'}, status=status.HTTP_400_BAD_REQUEST)
+            if thread_info.owner is None:
+                raise Exception(f'Thread owner is somehow None despite the request.user ({request.user}) probably not being'
+                                f' None.')
 
-        existing_thread = check_for_existing_thread(thread_info)
-        if existing_thread is not None:
-            return Response(ThreadSerializer(existing_thread).data, status=status.HTTP_200_OK)
+            existing_thread = check_for_existing_thread(thread_info)
+            if existing_thread is not None:
+                return Response(ThreadSerializer(existing_thread).data, status=status.HTTP_200_OK)
 
-        thread_recipients = []
-        for recipient in thread_info.recipients:
-            tr = ThreadRecipient.objects.create(recipient=recipient.user_orm,
-                                                representation=recipient.representation)
-            thread_recipients.append(tr)
+            thread_recipients = []
+            for recipient in thread_info.recipients:
+                tr = ThreadRecipient.objects.create(recipient=recipient.user_orm,
+                                                    representation=recipient.representation)
+                thread_recipients.append(tr)
 
-        thread = Thread.objects.create(name=thread_info.name,
-                                       owner=thread_info.owner,
-                                       application=thread_info.application,
-                                       about=thread_info.about,
-                                       )
-        thread.recipients.set(thread_recipients)
+            thread = Thread.objects.create(name=thread_info.name,
+                                           owner=thread_info.owner,
+                                           application=thread_info.application,
+                                           about=thread_info.about,
+                                           )
+            thread.recipients.set(thread_recipients)
 
-        # return Response({'threadId': thread.id, 'threadName': thread.name}, status=status.HTTP_200_OK)
-        return Response(ThreadSerializer(thread).data, status=status.HTTP_200_OK)
+            # return Response({'threadId': thread.id, 'threadName': thread.name}, status=status.HTTP_200_OK)
+            return Response(ThreadSerializer(thread).data, status=status.HTTP_200_OK)
+
+        except:
+            import traceback
+            logger.error(traceback.format_exc())
+            raise
 
     def delete(self, request, *args, **kwargs):
         threadId = request.data['threadId']
