@@ -1,5 +1,5 @@
 from django.conf import settings
-
+import traceback
 # third party
 from django.http import FileResponse
 from rest_framework import generics
@@ -20,6 +20,8 @@ from .upload_handler import (get_upload_progress,
                              UP_PROGRESS_KEY,
                              OWNER_ID_KEY,
                              NUM_PASSES)
+
+logger = settings.LOGGER
 
 
 def get_formatted_data(dataset_id):
@@ -253,51 +255,54 @@ class DatasetView(generics.GenericAPIView):
         return Response({}, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
-        tree = SchemaNode(request.data)
+        try:
+            tree = SchemaNode(request.data)
 
-        sg = ShareGroup.objects.create(owner=request.user,
-                                       active=True,
-                                       everyone=tree.shared_with)
+            sg = ShareGroup.objects.create(owner=request.user,
+                                           active=True,
+                                           everyone=tree.shared_with)
 
-        schema = Schema.objects.all().get(id=tree.id)
+            schema = Schema.objects.all().get(id=tree.id)
 
-        dataset = Dataset.objects.create(schema=schema,
-                                         share_group=sg,
-                                         watched_by=tree.data_watch.name)
+            dataset = Dataset.objects.create(schema=schema,
+                                             share_group=sg,
+                                             watched_by=tree.data_watch.name)
 
-        append_tangents_to_tree(schema, tree)
+            append_tangents_to_tree(schema, tree)
 
-        for i, node in enumerate(tree):
-            for node_field in node.fields:
-                if node.name == tree.name:
-                    fields = Field.objects.all().filter(name=node_field.name,
-                                                        schema=schema)
+            for i, node in enumerate(tree):
+                for node_field in node.fields:
+                    if node.name == tree.name:
+                        fields = Field.objects.all().filter(name=node_field.name,
+                                                            schema=schema)
 
-                else:
-                    fields = Field.objects.all().filter(name=node_field.name,
-                                                        schema=schema,
-                                                        group=node.tangent['orm_field'])
+                    else:
+                        fields = Field.objects.all().filter(name=node_field.name,
+                                                            schema=schema,
+                                                            group=node.tangent['orm_field'])
 
-                field = fields.first()
-                if field.data_type.upper() == FieldDataTypeChoices.VIDEO.upper() \
-                        or field.data_type.upper() == FieldDataTypeChoices.IMAGE.upper() \
-                        or field.data_type.upper() == FieldDataTypeChoices.FILE.upper():
-                    file = node_field['value']
-                    data = Data.objects.create(dataset=dataset,
-                                               field=field,
-                                               data_file=file)
-                else:
-                    data = Data.objects.create(dataset=dataset,
-                                               field=field,
-                                               value=node_field['value'])
+                    field = fields.first()
+                    if field.data_type.upper() == FieldDataTypeChoices.VIDEO.upper() \
+                            or field.data_type.upper() == FieldDataTypeChoices.IMAGE.upper() \
+                            or field.data_type.upper() == FieldDataTypeChoices.FILE.upper():
+                        file = node_field['value']
+                        data = Data.objects.create(dataset=dataset,
+                                                   field=field,
+                                                   data_file=file)
+                    else:
+                        data = Data.objects.create(dataset=dataset,
+                                                   field=field,
+                                                   value=node_field['value'])
 
-        if dataset.watched_by is not None:
-            submit_to_pdp2_watches(request, dataset, tree.cfg)
+            if dataset.watched_by is not None:
+                submit_to_pdp2_watches(request, dataset, tree.cfg)
 
-        return Response({}, status=status.HTTP_200_OK)
+            return Response({}, status=status.HTTP_200_OK)
+        except:
+            logger.error(traceback.format_exc())
+            raise
 
     def put(self, request, dataset_id, *args, **kwargs):
-
 
         tree = SchemaNode(request.data)
         dataset = Dataset.objects.all().get(id=dataset_id)
