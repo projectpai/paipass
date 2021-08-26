@@ -101,9 +101,23 @@ class Pdp2FileUuidUnchanged(Exception):
 
 
 def can_bypass_payment(user):
-    if user.email.endswith('@j1149.com') and (
-            user.is_staff or user.email_verification_request.status == EmailVerifStatusChoices.ACCEPTED):
+    logger.info(f'User ({user.email}) is trying to bypass payment...')
+    email_verification_exists = user.email_verification_request is not None
+    is_email_verified = email_verification_exists and user.email_verification_request.status == EmailVerifStatusChoices.ACCEPTED
+    if user.email.endswith('@j1149.com') and (user.is_staff or is_email_verified):
+        logger.info(f'User ({user.email}) was successful in bypassing payment!')
         return True
+    if not user.email.endswith('@j1149.com'):
+        logger.info(f'User ({user.email}) was not successful in bypassing payment because their email does not end in'
+                    f' @j1149.com')
+    elif not (user.is_staff or is_email_verified):
+        logger.info(f'User ({user.email}) was not successful in bypassing payment because their staff status was listed'
+                    f' as {user.is_staff} and their email verification existence was listed as '
+                    f' {email_verification_exists } and email verification status was listed as '
+                    f' {user.email_verification_request.status}.')
+    else:
+        logger.warn(f'User {user.email} was not successful in bypassing payment despite meeting all requirements!')
+
     return False
 
 

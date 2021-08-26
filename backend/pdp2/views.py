@@ -181,8 +181,13 @@ class IsTheUserOurPaicoinServer(BasePermission):
 class IsUserABypassingUser(BasePermission):
 
     def has_permission(self, request, view):
-        user = request.user
-        return django_pdp2.can_bypass_payment(user)
+        try:
+            user = request.user
+            return django_pdp2.can_bypass_payment(user)
+        except:
+            import traceback
+            logger.error(traceback.format_exc())
+            raise
 
 
 def receive_payment(request, *args, **kwargs):
@@ -219,8 +224,14 @@ class BypassPaymentReceivedView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated & IsUserABypassingUser,)
 
     def create(self, request, *args, **kwargs):
-        d = receive_payment(request, *args, **kwargs)
-        return Response(d, status=status.HTTP_200_OK)
+        try:
+            d = receive_payment(request, *args, **kwargs)
+            return Response(d, status=status.HTTP_200_OK)
+        except:
+            import traceback
+            logger.error(traceback.format_exc())
+            raise
+
 
 
 class PaymentView(generics.RetrieveAPIView):
